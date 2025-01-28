@@ -2,6 +2,12 @@
   "name": "iv.core.urp",
   "version": "0.0.1",
   "description": "Core URP extensions",
+  "displayName": "URP extensions",
+  "author": "iv",
+  "repository": "github:iveyalkin/iv.core.urp",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@iveyalkin"
+  },
   "dependencies": {
     "com.unity.render-pipelines.core": "17.0.0",
     "com.unity.render-pipelines.universal": "17.0.3"
