@@ -1,0 +1,9 @@
+{
+  "name": "iv.core.urp",
+  "version": "0.0.1",
+  "description": "Core URP extensions",
+  "dependencies": {
+    "com.unity.render-pipelines.core": "17.0.0",
+    "com.unity.render-pipelines.universal": "17.0.3"
+  }
+}
