@@ -1,0 +1,47 @@
+name: Publish Package to GitHub Packages
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (e.g. 1.0.0)'
+        required: true
+        type: string
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Update version if specified
+        if: github.event.inputs.version != ''
+        run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+      - name: Get package version
+        id: package-version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - name: Target version
+        run: 'echo "Package version: ${{ steps.package-version.outputs.VERSION }}"'
+      - name: Create tag
+        run: |
+          git tag v${{ steps.package-version.outputs.VERSION }}
+          git push origin v${{ steps.package-version.outputs.VERSION }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@iveyalkin'
+      - name: Install dependencies
+        run: npm ci
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
