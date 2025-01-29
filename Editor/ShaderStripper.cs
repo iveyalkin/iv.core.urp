@@ -24,7 +24,10 @@ namespace IV.Core.URP
         {
             // Remove all DEFERRED passes, because FORWARD+ rendering used only.
             if (snippet.passType == UnityEngine.Rendering.PassType.Deferred)
+            {
+                Debug.LogWarning($"Deferred shader '{shader.name}' will be stripped.");
                 data.Clear();
+            }
             else
                 TryStripShaderKeys(shader, data);
         }
@@ -35,6 +38,7 @@ namespace IV.Core.URP
             {
                 if (shader.name.Contains(key, System.StringComparison.OrdinalIgnoreCase))
                 {
+                    Debug.LogWarning($"Found shader '{key}' will be stripped.");
                     data.Clear();
                     break;
                 }

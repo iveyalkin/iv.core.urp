@@ -36,7 +36,6 @@ Shader "IV/URP/Water"
     {
         Tags
         {
-
             "RenderPipeline" = "UniversalPipeline"
         }
         LOD 100
@@ -78,6 +77,8 @@ Shader "IV/URP/Water"
             Varyings Vertex(Attributes input)
             {
                 Varyings output;
+
+                output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
                 // Add simple wave motion
                 float3 worldPos = TransformObjectToWorld(input.positionOS.xyz);
